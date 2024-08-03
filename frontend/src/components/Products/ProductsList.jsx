@@ -23,14 +23,11 @@ const ProductsList = () => {
             </select>
         </header>
         <div className="products_list">
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
+            {error && <em className='form_error'>{error}</em>}
+            {products.map(product => <ProductCard key={product?._id} id={product?._id}
+              image={product?.images[0]} price={product?.price} title={product?.title}
+              rating={product?.reviews?.rate} ratingCounts={product?.reviews?.counts} stock={product?.stock}/>
+            )}
         </div>
     </section>
   )
