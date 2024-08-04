@@ -23,6 +23,7 @@ const SignupPage = () => {
     const onSubmit = async (formData) => {
         try {
             await signUp(formData, profilePic)
+            window.location = "/";
         } catch (err) {
             if(err.response && err.response.status == 400) {
                 console.log(err.response)

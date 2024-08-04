@@ -3,14 +3,26 @@ import { useForm } from 'react-hook-form';
 import {z} from "zod";
 import {zodResolver} from '@hookform/resolvers/zod'
 import './LoginPage.css'
+import { login } from '../../services/userServices';
 
 const LoginPage = () => {
+    const [formError, setFormError] = useState("");
     const schema = z.object({
         email: z.string().email({message: 'Please enter valid email address'}).min(3),
         password: z.string().min(8, {message: 'Password must contain at least 8 character(s)'})
     })
     const {register, handleSubmit, formState: {errors}} = useForm({resolver: zodResolver(schema)})
-    const onSubmit = formData => console.log("formdata",formData)
+    const onSubmit = async(formData) => {
+        try {
+            await login(formData);
+            window.location = "/";
+        } catch (err) {
+            if(err.response && err.response.status == 400) {
+                console.log(err.response)
+                setFormError(err?.response?.data?.message)
+            }
+        }
+    }
   return (
     <section className="align_center form_page">
         <form action="" className="authentication_form" onSubmit={handleSubmit(onSubmit)}>
@@ -26,7 +38,7 @@ const LoginPage = () => {
                     <input id="password" type="password" className='form_text_input' {...register("password")} placeholder='Enter your password'/>
                     {errors.password && <em className='form_error'>{errors.password.message}</em>}
                 </div>
-
+                {formError && <em className="form_error">{formError}</em>}
                 <button type="submit" className='search_button form_submit'>Submit</button>
             </div>
         </form>
