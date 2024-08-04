@@ -4,9 +4,11 @@ import {zodResolver} from '@hookform/resolvers/zod'
 import "./SignupPage.css";
 import user from "../../assets/user.webp";
 import { useState } from "react";
+import { signUp } from "../../services/userServices";
 
 const SignupPage = () => {
     const [profilePic, setProfilePic] = useState(null);
+    const [formError, setFormError] = useState("");
     const schema = z.object({
         name: z.string().min(3, {message: 'Name should be at least 3 characters'}),
         email: z.string().email({message: 'Please enter valid email address'}),
@@ -18,8 +20,15 @@ const SignupPage = () => {
         path: ['confirmPassword']
     })
     const {register, handleSubmit, formState: {errors}} = useForm({resolver: zodResolver(schema)});
-    const onSubmit = formData => {
-
+    const onSubmit = async (formData) => {
+        try {
+            await signUp(formData, profilePic)
+        } catch (err) {
+            if(err.response && err.response.status == 400) {
+                console.log(err.response)
+                setFormError(err?.response?.data?.message)
+            }
+        }
     }
     return (
         <section className='align_center form_page'>
@@ -97,7 +106,7 @@ const SignupPage = () => {
                         {errors.deliveryAddress && <em className='form_error'>{errors.deliveryAddress.message}</em>}
                     </div>
                 </div>
-
+                {formError && <em className="form_error">{formError}</em>}
                 <button className='search_button form_submit' type='submit'>
                     Submit
                 </button>
