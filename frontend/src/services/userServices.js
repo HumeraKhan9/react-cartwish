@@ -26,3 +26,6 @@ export function getUser() {
         return null;
     }
 }
+export function getJwt() {
+    return localStorage.getItem(tokenName);
+}

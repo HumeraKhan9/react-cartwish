@@ -22,7 +22,7 @@ const ProductCard = ({id, image, price, title, rating, ratingCounts, stock}) => 
                     <p className="product_review_count">{ratingCounts}</p>
                 </div>
                 {stock > 0 && <button className='add_to_cart'>
-                    <img src={basket} alt="basket"/>
+                    <img src={basket} className='basket' alt="basket"/>
                 </button>}
             </footer>
         </div>
