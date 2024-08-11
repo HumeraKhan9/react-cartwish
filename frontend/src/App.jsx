@@ -7,7 +7,7 @@ import Navbar from './components/Navbar/Navbar'
 import Routing from './components/Routing/Routing'
 import { getUser, getJwt } from './services/userServices';
 import setAuthToken from './utils/setAuthToken';
-import { addToCartAPI, getCartAPI, removeFromCartAPI } from './services/cartServices';
+import { addToCartAPI, decreaseProductAPI, getCartAPI, increaseProductAPI, removeFromCartAPI } from './services/cartServices';
 import 'react-toastify/dist/ReactToastify.css';
 setAuthToken(getJwt())
 
@@ -56,6 +56,31 @@ const App = () => {
       setCart(oldCart)
     })
   }
+  const updateCart = (type, id) => {
+    const oldCart = [...cart]
+    const updatedCart = [...cart];
+    const productIndex = updatedCart.findIndex(item => item.product._id == id);
+    if(type == 'increase') {
+      updatedCart[productIndex].quantity += 1;
+      setCart(updatedCart)
+      increaseProductAPI(id).then(res => {
+        //toast.success("Quantity increased successfully!")
+      }).catch(err => {
+        toast.error("Something went wrong..")
+        setCart(oldCart)
+      })
+    }
+    if(type == 'decrease') {
+      updatedCart[productIndex].quantity -= 1;
+      setCart(updatedCart)
+      decreaseProductAPI(id).then(res => {
+        //toast.success("Quantity decreased successfully!")
+      }).catch(err => {
+        toast.error("Something went wrong..")
+        setCart(oldCart)
+      })
+    }
+  }
   const getCart = () => {
     getCartAPI().then(res => {
       setCart(res?.data)
@@ -70,7 +95,7 @@ const App = () => {
   }, [user])
   return (
     <UserContext.Provider value={user}>
-      <CartContext.Provider value={{cart, addToCart, removeFromCart}}>
+      <CartContext.Provider value={{cart, addToCart, removeFromCart, updateCart}}>
         <div className='app'>
           <Navbar/>
           <main>

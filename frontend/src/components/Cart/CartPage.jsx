@@ -7,7 +7,7 @@ import QuantityInput from '../SingleProduct/QuantityInput';
 import CartContext from '../../contexts/CartContext';
 
 const CartPage = () => {
-    const {cart, removeFromCart} = useContext(CartContext)
+    const {cart, removeFromCart, updateCart} = useContext(CartContext)
     const [subTotal, setSubTotal] = useState(0);
     const user = useContext(UserContext)
     useEffect(() => {
@@ -33,7 +33,9 @@ const CartPage = () => {
                         <td>{product?.title}</td>
                         <td>${product?.price}</td>
                         <td className='align_center table_quantity_input'>
-                            <QuantityInput quantity={quantity} stock={product?.stock}/>
+                            <QuantityInput quantity={quantity} stock={product?.stock}
+                                setQuantity={updateCart} cartPage={true} productId={product?._id}
+                            />
                         </td>
                         <td>${quantity * product?.price}</td>
                         <td><img src={remove} alt="remove" className='cart_remove_icon' onClick={() => removeFromCart(product._id)}/></td>
