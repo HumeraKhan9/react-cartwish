@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import UserContext from '../../contexts/UserContext';
 import './CartPage.css';
 import remove from '../../assets/remove.png'
 import Table from '../Common/Table';
 import QuantityInput from '../SingleProduct/QuantityInput';
 import CartContext from '../../contexts/CartContext';
+import checkoutAPI from '../../services/orderServices';
 
 const CartPage = () => {
-    const {cart, removeFromCart, updateCart} = useContext(CartContext)
+    const {cart, removeFromCart, updateCart, setCart} = useContext(CartContext)
     const [subTotal, setSubTotal] = useState(0);
     const user = useContext(UserContext)
     useEffect(() => {
@@ -17,6 +19,16 @@ const CartPage = () => {
         })
         setSubTotal(total)
     }, [cart])
+    const checkout = () => {
+        const oldCart = [...cart]
+        setCart([])
+        checkoutAPI().then(res => {
+            toast.success("Order place successfully!")
+        }).catch(err => {
+            toast.error("Something went wrong..")
+            setCart(oldCart)
+        })
+    }
   return (
     <section className='align_center cart_page'>
         <div className="align_center user_info">
@@ -59,7 +71,7 @@ const CartPage = () => {
                 </tr>
             </tbody>
         </table>
-        <button className="search_button checkout_button">Checkout</button>
+        <button className="search_button checkout_button" onClick={checkout}>Checkout</button>
     </section>
   )
 }

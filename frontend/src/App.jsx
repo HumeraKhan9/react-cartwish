@@ -95,7 +95,7 @@ const App = () => {
   }, [user])
   return (
     <UserContext.Provider value={user}>
-      <CartContext.Provider value={{cart, addToCart, removeFromCart, updateCart}}>
+      <CartContext.Provider value={{cart, addToCart, removeFromCart, updateCart, setCart}}>
         <div className='app'>
           <Navbar/>
           <main>
