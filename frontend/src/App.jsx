@@ -7,7 +7,7 @@ import Navbar from './components/Navbar/Navbar'
 import Routing from './components/Routing/Routing'
 import { getUser, getJwt } from './services/userServices';
 import setAuthToken from './utils/setAuthToken';
-import { addToCartAPI, getCartAPI } from './services/cartServices';
+import { addToCartAPI, getCartAPI, removeFromCartAPI } from './services/cartServices';
 import 'react-toastify/dist/ReactToastify.css';
 setAuthToken(getJwt())
 
@@ -44,7 +44,18 @@ const App = () => {
       toast.error("Failed to add product!")
       setCart(cart)
     })
-  } 
+  }
+  const removeFromCart = id => {
+    const oldCart = [...cart];
+    const newCart = oldCart.filter(item => item.product._id !== id)
+    setCart(newCart)
+    removeFromCartAPI(id).then(res => {
+      toast.success("Item deleted successfully!")
+    }).catch(err => {
+      toast.error("Something went wrong..")
+      setCart(oldCart)
+    })
+  }
   const getCart = () => {
     getCartAPI().then(res => {
       setCart(res?.data)
@@ -59,7 +70,7 @@ const App = () => {
   }, [user])
   return (
     <UserContext.Provider value={user}>
-      <CartContext.Provider value={{cart, addToCart}}>
+      <CartContext.Provider value={{cart, addToCart, removeFromCart}}>
         <div className='app'>
           <Navbar/>
           <main>
