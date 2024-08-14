@@ -1,5 +1,6 @@
 import React from 'react';
 import './ProductsSidebar.css';
+import config from '../../config.json'
 import LinkWithIcon from '../Navbar/LinkWithIcon';
 import useData from '../../hooks/useData';
 
@@ -12,7 +13,7 @@ const ProductsSidebar = () => {
             {error && <em className='form_error'>{error}</em>}
             {categories && categories.map(category =>
               <LinkWithIcon key={`cat-${category?._id}`} id={category?._id} title={category?.name} link={`/products?category=${category?.name}`}
-              emoji={`http://localhost:5001/category/${category?.image}`} sidebar={true}/>
+              emoji={`${config.backendURL}/category/${category?.image}`} sidebar={true}/>
             )}
         </div>
     </aside>
