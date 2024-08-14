@@ -41,7 +41,7 @@ const CartPage = () => {
         <Table headings={["Item", "Price", "Quantity", "Total", "Remove"]}>
             <tbody>
                 {cart.map(({product, quantity}) =>
-                    <tr key={product._id}>
+                    <tr key={`prod-${product._id}`}>
                         <td>{product?.title}</td>
                         <td>${product?.price}</td>
                         <td className='align_center table_quantity_input'>

@@ -46,9 +46,9 @@ const ProductsList = () => {
         </header>
         <div className="products_list">
             {error && <em className='form_error'>{error}</em>}
-            {data?.products && data?.products.map(product => <ProductCard key={product?._id} product={product}/>
+            {data?.products && data?.products.map(product => <ProductCard key={`pc-${product?._id}`} product={product}/>
             )}
-            {isLoading && skeletons.map(skeleteon => <ProductCardSkeleton key={skeleteon}/>)}
+            {isLoading && skeletons.map(skeleteon => <ProductCardSkeleton key={`ps-${skeleteon}`}/>)}
         </div>
     </section>
   )

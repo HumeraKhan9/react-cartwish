@@ -6,7 +6,7 @@ const Table = ({headings, children}) => {
     <table className='common_table'>
         <thead>
             {
-                headings.map((heading, index) => <th key={index}>{heading}</th>)
+                headings.map((heading, index) => <th key={`t-${index}`}>{heading}</th>)
             }
         </thead>
         {children}

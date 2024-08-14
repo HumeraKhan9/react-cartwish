@@ -9,7 +9,7 @@ const Pagination = ({totalCount, countPerPage, onClick, currentPage}) => {
   return (
     <>
         {pages.length > 1 && <ul className='pagination'>
-            {pages.map(page => <li key={page}>
+            {pages.map(page => <li key={`page-${page}`}>
                 <button className={parseInt(currentPage) === page ? 'pagination_button active': 'pagination_button'} 
                     onClick={() => onClick(page)}>{page}
                 </button>

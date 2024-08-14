@@ -12,9 +12,9 @@ const FeaturedProducts = () => {
         <h2>Featured Products</h2>
         <div className='align_center featured_product_list'>
           {error && <em className='form_error'>{error}</em>}
-          {data && data?.map(product => <ProductCard key={product?._id} product={product}/>
+          {data && data?.map(product => <ProductCard key={`pcard-${product?._id}`} product={product}/>
             )}
-          {isLoading && skeletons.map(skeleteon => <ProductCardSkeleton key={skeleteon}/>)}
+          {/* {isLoading && skeletons.map(skeleteon => <ProductCardSkeleton key={`pskeleton-${skeleteon}`}/>)} */}
         </div>
 
     </section>
